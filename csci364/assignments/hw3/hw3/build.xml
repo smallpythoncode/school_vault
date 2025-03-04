@@ -3,7 +3,7 @@
      build.xml
      Ant script for CS364, Program #3
 
-     David Apostal
+     Kenneth Jahnke
 -->
 <project name="Volunteer Computing" default="compile" basedir=".">
     <!-- define properties to be used later -->

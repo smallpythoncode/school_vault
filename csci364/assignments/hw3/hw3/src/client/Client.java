@@ -3,11 +3,23 @@ package client;
 import api.ClientManager;
 import api.Worker;
 import java.rmi.Naming;
+import java.rmi.UnknownHostException;
+import java.rmi.ConnectException;
 import java.util.List;
 import java.util.Random;
 
 
+/**
+ * client.Client.java
+ * HW3
+ * CSCI 364, Spring 2025
+ *
+ * @author jahnke
+ */
 public class Client {
+    /**
+     * @param args terminal arguments: [userID] [host] [port]
+     */
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Usage: java Client <userId> [host] [port]");
@@ -32,10 +44,15 @@ public class Client {
                 Worker task = manager.requestWork(userId, selectedTask);
                 task.doWork();
                 manager.submitResults(userId, task);
+                Thread.sleep(50);  // Give server side time to update
                 
                 float score = manager.getScore(userId);
                 System.out.println("Current score: " + score);
             }
+        } catch (UnknownHostException e) {
+            System.err.println("Unknown host: " + host + ". Try 'localhost'.");
+        } catch (ConnectException e) {
+            System.err.println("Connection refused: " + port + ". Try 1099.");
         } catch (Exception e) {
             e.printStackTrace();
         }
